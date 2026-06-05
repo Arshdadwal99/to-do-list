@@ -20,6 +20,7 @@ pipeline {
         EC2_INSTANCE_ID = 'i-0780fc14cb9e6b7d3'
         AWS_REGION = 'us-east-1'
         HEALTH_URL = 'http://18.234.246.25/'
+        DEPLOYMENT_TRANSPORT = 'ssm'
         DOCKER_HUB_CREDENTIALS_ID = 'dockerhub-credentials'
     }
 
@@ -81,6 +82,10 @@ pipeline {
         stage('Health Check') {
             steps {
                 sh '''
+                    if [ "$DEPLOYMENT_TRANSPORT" = "ssm" ]; then
+                        echo "Health check is executed by DevOpsHub after AWS SSM starts the EC2 container."
+                        exit 0
+                    fi
                     for attempt in $(seq 1 30); do
                         if curl -fsS $HEALTH_URL >/dev/null; then
                             echo "Application is healthy at $HEALTH_URL"
