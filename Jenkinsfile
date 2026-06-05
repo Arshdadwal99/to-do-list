@@ -15,11 +15,12 @@ pipeline {
         DOCKER_IMAGE = 'arshdadwal99/to-do-list'
         CONTAINER_NAME = 'to-do-list'
         APP_PORT = '3000'
-        EC2_HOST = '184.72.76.179'
-        EC2_USER = 'ubuntu'
-        HEALTH_URL = 'http://184.72.76.179:3000/'
+        PUBLIC_PORT = '80'
+        EC2_HOST = '18.234.246.25'
+        EC2_INSTANCE_ID = 'i-0780fc14cb9e6b7d3'
+        AWS_REGION = 'us-east-1'
+        HEALTH_URL = 'http://18.234.246.25/'
         DOCKER_HUB_CREDENTIALS_ID = 'dockerhub-credentials'
-        EC2_SSH_CREDENTIALS_ID = 'ec2-ssh-key'
     }
 
     stages {
@@ -73,21 +74,7 @@ pipeline {
 
         stage('Deploy to EC2') {
             steps {
-                sshagent(credentials: [env.EC2_SSH_CREDENTIALS_ID]) {
-                    withCredentials([usernamePassword(
-                        credentialsId: env.DOCKER_HUB_CREDENTIALS_ID,
-                        usernameVariable: 'DOCKER_USER',
-                        passwordVariable: 'DOCKER_TOKEN'
-                    )]) {
-                        sh '''
-                            ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "mkdir -p ~/devops-hub/$CONTAINER_NAME"
-                            echo "$DOCKER_TOKEN" | ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "docker login -u '$DOCKER_USER' --password-stdin"
-                            ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "docker pull $DOCKER_IMAGE:$BUILD_NUMBER"
-                            ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "docker rm -f $CONTAINER_NAME || true"
-                            ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "docker run -d --restart unless-stopped --name $CONTAINER_NAME -p $APP_PORT:$APP_PORT $DOCKER_IMAGE:$BUILD_NUMBER"
-                        '''
-                    }
-                }
+                echo 'EC2 deployment is executed by DevOpsHub through AWS Systems Manager after the image push completes.'
             }
         }
 
