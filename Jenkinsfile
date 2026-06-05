@@ -14,7 +14,7 @@ pipeline {
         BRANCH_NAME = 'master'
         DOCKER_IMAGE = 'arshdadwal99/to-do-list'
         CONTAINER_NAME = 'to-do-list'
-        APP_PORT = '3000'
+        APP_PORT = '8000'
         PUBLIC_PORT = '80'
         EC2_HOST = '18.234.246.25'
         EC2_INSTANCE_ID = 'i-0780fc14cb9e6b7d3'
