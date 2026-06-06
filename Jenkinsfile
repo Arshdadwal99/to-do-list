@@ -16,10 +16,10 @@ pipeline {
         CONTAINER_NAME = 'to-do-list'
         APP_PORT = '8000'
         PUBLIC_PORT = '80'
-        EC2_HOST = '34.228.240.19'
-        EC2_INSTANCE_ID = 'i-0ee0598a7e8772b32'
+        EC2_HOST = '50.19.147.209'
+        EC2_INSTANCE_ID = 'i-0036b44d0c4157dc0'
         AWS_REGION = 'us-east-1'
-        HEALTH_URL = 'http://34.228.240.19/'
+        HEALTH_URL = 'http://50.19.147.209/'
         DEPLOYMENT_TRANSPORT = 'ssm'
         DOCKER_HUB_CREDENTIALS_ID = 'dockerhub-credentials'
     }
